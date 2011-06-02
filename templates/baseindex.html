@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+        <head>
+            <title>Index Page of CUGOS Logs</title>
+            <link rel="stylesheet" type="text/css" href="media/indexstyle.css" />
+        </head>
+
+        <body>
+                <h3>Cascadia Users of Geospatial Open Source (CUGOS) IRC Logs</h3>
+                    You can participate in the discussion by joining #cugos on irc.freenode.net
+                <p></p>
+                <table class="columns"> 
+                    <tr>
+                        <td valign="top" class="name"><a href="#">Name</a></td>
+                        <td valign="top" class="threads"><a href="#">#Threads</a></td>
+                        <td valign="top" class="people"><a href="#">#People</a></td>
+                        <td class="desc"><a href="#">Description</a></td>
+                    </tr>
+                </table>
+                <hr/>
+                <table class="records"> 
+                        <!-- main index block -->
+                        {% block index_content %}
+                            hyperlinks to each view 
+                        {% endblock index_content %}
+                </table>
+                <hr/>
+        <p>All time stamps in the logs are GMT-9.</p>
+        </body>
+</html>
+

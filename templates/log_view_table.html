@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+        <head>
+            <title>{{key}}</title>
+            <link rel="stylesheet" type="text/css" href="../../../media/logstyle.css" />
+        </head>
+
+        <body>
+                <h3>#{{key}}</h3>
+                <hr/>
+                <table>
+                        {% block log_view_records %}
+                            loggy stuffs
+                        {% endblock log_view_records %}
+                </table>
+                <hr/>
+        <p>All time stamps in the logs are GMT-9.</p>
+        </body>
+</html>
+

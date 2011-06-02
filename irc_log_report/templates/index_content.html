@@ -1,0 +1,14 @@
+{% extends "baseindex.html" %}
+
+<!--<a href="%23qgis.2011-05-31.log">#qgis.2011-05-31.log</a>    31-May-2011 15:34   15K-->
+<!--<img src="../../media/arrow-bullet-symbols16x16.jpg" alt="[TXT]">--> 
+<!-- remember to add in the date and time and size to mimic a index page of files-->
+{% block index_content %}
+{% for key, value in records.items %}
+<tr>
+        <td valign="top" class="hyper"><a href="/irc/{{value.chan}}/{{value.date}}/">{{key}}</a></td>
+        <td valign="top" class="count">{{value.recCount}}</td>
+        <td class="tell">{{value.tellCount}}</td>
+</tr>
+{% endfor %}
+{% endblock %}

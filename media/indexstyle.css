@@ -1,0 +1,56 @@
+body{
+background: #ffffff;
+font-size: 100%;
+}
+
+table.columns{
+    color: #3366FF;
+    font-size: 95%;
+}
+table.columns >
+td.name{
+    padding-left: 5px;
+}
+td.threads{
+    padding-left: 125px;
+}
+td.people{
+    padding-left: 50px;
+}
+td.desc{
+    color: #3366FF;
+    padding-left: 75px;
+}
+
+table.records{
+    font-size: 85%;
+}
+table.records >
+
+/*needs work*/
+td.hyper{
+    padding-left: 5px;
+}
+td.hyper > a:link { color: #4A4AAE; }
+td.hyper > a:visited { color: #808080; }
+td.hyper > a:hover { text-decoration: none; color: #F5B800; }
+
+
+td.count{
+    color: #008000;
+    padding-left: 36px;
+}
+td.tell{
+    color: #3D3D3D;
+    padding-left: 106px;
+}
+
+/*
+play with these
+a {font-family:Georgia,serif; font-size:large}
+a:link {color:blue;}
+a:visited {color: #660066;}
+a:hover {text-decoration: none; color: #ff9900;
+font-weight:bold;}
+a:active {color: red;text-decoration: none}
+*/

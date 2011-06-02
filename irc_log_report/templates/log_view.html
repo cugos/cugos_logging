@@ -1,0 +1,11 @@
+{% extends "log_view_table.html" %}
+
+{% block log_view_records %}
+{% for mes in messages %}
+<tr>
+    <td valign='top' class='time'>[{{mes.time}}]</td>
+    <td valign='top' class='nick'>{{mes.teller}}:</td>
+    <td class='post'>{{mes.message}}</td>
+</tr>
+{% endfor %}
+{% endblock%}

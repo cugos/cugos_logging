@@ -1,0 +1,26 @@
+body{
+background: #ffffff;
+font-size: 90%;
+}
+table{
+    font-size: 85%;
+}
+td.nick{
+    color: #800000;
+    padding-left: 5px;
+}
+td.time{
+    color: #808080;
+}
+td.me{
+    color: #008000;
+}
+td.post{
+    color: #000000;
+    padding-left: 12px;
+}
+
+/*
+mpg
+4E5B6F
+*/
