@@ -49,10 +49,12 @@ def take_dump(request, chan=None, YEAR=None, MONTH=None, DAY=None):
     recordsList = []
     key = None
     for mes in messages:
+        # strip out some bad characters
+        irc_message = str(mes.message).replace('\x01','')
         recordsList.append ({ 'time': str(mes.time),
                              'chan' : str(mes.channel),
                              'teller' : str(mes.teller),
-                             'message' : str(mes.message)})
+                             'message' : irc_message})
 
         key = mes.channel + "-" + str(mes.date) + ".log"
     
