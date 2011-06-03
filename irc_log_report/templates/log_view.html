@@ -3,9 +3,15 @@
 {% block log_view_records %}
 {% for mes in messages %}
 <tr>
-    <td valign='top' class='time'>[{{mes.time}}]</td>
-    <td valign='top' class='nick'>{{mes.teller}}:</td>
-    <td class='post'>{{mes.message}}</td>
+    {% if mes.teller == "mpg" %}
+            <td valign='top' class='mpg time'>[{{mes.time}}]</td>
+            <td valign='top' class='mpg nick'>{{mes.teller}}:</td>
+            <td class='mpg post'>{{mes.message}}</td>
+    {% else %}
+            <td valign='top' class='time'>[{{mes.time}}]</td>
+            <td valign='top' class='nick'>{{mes.teller}}:</td>
+            <td class='post'>{{mes.message}}</td>
+    {% endif %}
 </tr>
 {% endfor %}
 {% endblock%}

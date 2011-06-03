@@ -20,7 +20,20 @@ td.post{
     padding-left: 12px;
 }
 
+/*for mpg's sake*/
+td.mpg.nick{
+    color: #3E68A6;
+    padding-left: 5px;
+}
+td.mpg.time{
+    color: #3E68A6;
+}
+td.mpg.post{
+    color: #3E68A6;
+    padding-left: 12px;
+}
+
 /*
 mpg
-4E5B6F
+324D75
 */
