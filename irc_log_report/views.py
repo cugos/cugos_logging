@@ -17,6 +17,7 @@ def hello(request):
 def index_page(request, xarg=None):
     # get a distinct list of dates and channels
     distinct = Message.objects.values_list('channel', 'date').distinct().order_by('-date')
+    sortedKeyList = []
     recordsDict = {}
     for chan, date in distinct: 
         key = chan +"-"+ str(date) +".log" 
@@ -25,13 +26,16 @@ def index_page(request, xarg=None):
                              'recCount' : Message.objects.filter(channel=chan).filter(date=str(date)).count(), 
                              'tellCount' : Message.objects.values_list('teller').filter(channel=chan).filter(date=str(date)).distinct().count()
                            }
+        sortedKeyList.append(key)
          
-
-    logging.info(recordsDict)
+    # sort it
+    sortedKeyList.sort()
+    sortedKeyList.reverse()
 
     return render_to_response('index_content.html',
                               {
                                 'records' : recordsDict,
+                                'keylist' : sortedKeyList,
                               },
                               context_instance=RequestContext(request))
 
@@ -58,7 +62,6 @@ def take_dump(request, chan=None, YEAR=None, MONTH=None, DAY=None):
 
         key = mes.channel + "-" + str(mes.date) + ".log"
     
-    logging.info(recordsList)
     return render_to_response('log_view.html',
                               {
                                 'messages' : recordsList,

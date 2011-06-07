@@ -1,14 +1,15 @@
 {% extends "baseindex.html" %}
 
+{% load custom_filters %}
 <!--<a href="%23qgis.2011-05-31.log">#qgis.2011-05-31.log</a>    31-May-2011 15:34   15K-->
 <!--<img src="../../media/arrow-bullet-symbols16x16.jpg" alt="[TXT]">--> 
 <!-- remember to add in the date and time and size to mimic a index page of files-->
 {% block index_content %}
-{% for key, value in records.items %}
-<tr>
-        <td valign="top" class="hyper"><a href="/irc/{{value.chan}}/{{value.date}}/">{{key}}</a></td>
-        <td valign="top" class="count">{{value.recCount}}</td>
-        <td class="tell">{{value.tellCount}}</td>
-</tr>
+{% for key in keylist %}
+        <tr>
+                <td valign="top" class="hyper"><a href="/irc/{{records|hashlookup:key|hashlookup:"chan"}}/{{records|hashlookup:key|hashlookup:"date"}}/">{{key}}</a></td>
+                <td valign="top" class="count">{{records|hashlookup:key|hashlookup:"recCount"}}</td>
+                <td class="tell">{{records|hashlookup:key|hashlookup:"tellCount"}}</td>
+        </tr>
 {% endfor %}
 {% endblock %}

@@ -4,7 +4,7 @@
 {% for mes in messages %}
 <tr>
     {% if mes.teller == "mpg" %}
-            <td valign='top' class='mpg time'>[{{mes.time}}]</td>
+            <td valign='top' class='time'>[{{mes.time}}]</td>
             <td valign='top' class='mpg nick'>{{mes.teller}}:</td>
             <td class='mpg post'>{{mes.message}}</td>
     {% else %}
