@@ -15,6 +15,9 @@ urlpatterns = patterns('',
     (r'irchello', 'cugos_logging.irc_log_report.views.hello'),
     (r'^$', 'cugos_logging.irc_log_report.views.index_page'),
     (r'^irc/(?P<chan>\w+)/(?P<YEAR>[0-9]{4})-(?P<MONTH>[0-9]{2})-(?P<DAY>[0-9]{2})/$', 'cugos_logging.irc_log_report.views.take_dump'),
+    (r'^threads$', 'cugos_logging.irc_log_report.views.sort_threads'),
+    (r'^tellers$', 'cugos_logging.irc_log_report.views.sort_tellers'),
+
     # Static media files
     (r'^media/(.*)$','django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
     # Example:

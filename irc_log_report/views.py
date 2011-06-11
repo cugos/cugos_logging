@@ -4,40 +4,90 @@ from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.conf import settings
-
 import string,os,sys,glob,time,logging
-
 # imports relative to irc_log_reports proper
 from cugos_logging.irc_log_report.models import *
+from cugos_logging.base_classes.classes import *
 
-
-def hello(request):
-    return HttpResponse("Hello, world. You're at the poll index.")
 
 def index_page(request, xarg=None):
+    if request.method == 'POST':
+        logging.info("POST request against sort_threads()")
+        #return HttpResponseRedirect(settings.ROOT_RELATIVE_URL+'find/?search='+search)
+    else:
+        order = request.GET.get('order','desc')
+    
     # get a distinct list of dates and channels
     distinct = Message.objects.values_list('channel', 'date').distinct().order_by('-date')
-    sortedKeyList = []
-    recordsDict = {}
+    indexAll = []    
     for chan, date in distinct: 
-        key = chan +"-"+ str(date) +".log" 
-        recordsDict[key] = { 'date': str(date), 
-                             'chan': chan, 
-                             'recCount' : Message.objects.filter(channel=chan).filter(date=str(date)).count(), 
-                             'tellCount' : Message.objects.values_list('teller').filter(channel=chan).filter(date=str(date)).distinct().count()
-                           }
-        sortedKeyList.append(key)
-         
-    # sort it
-    sortedKeyList.sort()
-    sortedKeyList.reverse()
+        logname = chan +"-"+ str(date) +".log" 
+        indexAll.append(  BaseIndex(chan, str(date), logname, Message.objects.values_list('teller').filter(channel=chan).filter(date=str(date)).distinct().count(), Message.objects.filter(channel=chan).filter(date=str(date)).count())  ) 
+           
+    indexSorted = BaseIndex.sortBy(indexAll, "logname")                      
+    if order != 'asc': indexSorted.reverse()
 
     return render_to_response('index_content.html',
                               {
-                                'records' : recordsDict,
-                                'keylist' : sortedKeyList,
+                                'records' : indexSorted,
+                                'root': settings.ROOT_URL,
+                                'order': order,
                               },
                               context_instance=RequestContext(request))
+
+
+def sort_threads(request, xarg=None):
+    if request.method == 'POST':
+        logging.info("POST request against sort_threads()")
+        #return HttpResponseRedirect(settings.ROOT_RELATIVE_URL+'find/?search='+search)
+    else:
+        order = request.GET.get('order','asc')
+        logging.info("GET request against take_dump")
+
+    # get a distinct list of dates and channels
+    distinct = Message.objects.values_list('channel', 'date').distinct().order_by('-date')
+    indexAll = []    
+    for chan, date in distinct: 
+        logname = chan +"-"+ str(date) +".log" 
+        indexAll.append(  BaseIndex(chan, str(date), logname, Message.objects.values_list('teller').filter(channel=chan).filter(date=str(date)).distinct().count(), Message.objects.filter(channel=chan).filter(date=str(date)).count())  ) 
+
+    indexSorted = BaseIndex.sortBy(indexAll, "numThreads")                      
+    if order != 'asc': indexSorted.reverse()
+
+    return render_to_response('index_content.html',
+                              {
+                                'records' : indexSorted,
+                                'root': settings.ROOT_URL,
+                                'order': order,
+                              },
+                              context_instance=RequestContext(request))
+
+
+def sort_tellers(request, xarg=None):
+    if request.method == 'POST':
+        logging.info("POST request against sort_threads()")
+        #return HttpResponseRedirect(settings.ROOT_RELATIVE_URL+'find/?search='+search)
+    else:
+        order = request.GET.get('order','asc')
+
+    # get a distinct list of dates and channels
+    distinct = Message.objects.values_list('channel', 'date').distinct().order_by('-date')
+    indexall = []    
+    for chan, date in distinct: 
+        logname = chan +"-"+ str(date) +".log" 
+        indexall.append(  BaseIndex(chan, str(date), logname, Message.objects.values_list('teller').filter(channel=chan).filter(date=str(date)).distinct().count(), Message.objects.filter(channel=chan).filter(date=str(date)).count())  ) 
+                           
+    indexsorted = BaseIndex.sortBy(indexall, "numTellers")                      
+    if order != 'asc': indexsorted.reverse()
+
+    return render_to_response('index_content.html',
+                              {
+                                'records' : indexsorted,
+                                'root': settings.ROOT_URL,
+                                'order': order,
+                              },
+                              context_instance=RequestContext(request))
+
 
 def take_dump(request, chan=None, YEAR=None, MONTH=None, DAY=None):
 
@@ -68,4 +118,5 @@ def take_dump(request, chan=None, YEAR=None, MONTH=None, DAY=None):
                                 'key' : key,
                               },
                               context_instance=RequestContext(request))
+
 

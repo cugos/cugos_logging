@@ -2,7 +2,7 @@
 <html>
         <head>
             <title>Index Page of CUGOS Logs</title>
-            <link rel="stylesheet" type="text/css" href="{{root_relative_url}}media/indexstyle.css" />
+            <link rel="stylesheet" type="text/css" href="{{root}}/media/indexstyle.css" />
         </head>
 
         <body>
@@ -11,9 +11,28 @@
                 <p></p>
                 <table class="columns"> 
                     <tr>
-                        <td valign="top" class="name"><a href="#">Name</a></td>
-                        <td valign="top" class="threads"><a href="#">#Threads</a></td>
-                        <td valign="top" class="people"><a href="#">#People</a></td>
+    
+                                {% if order == "asc" %}
+                                    <td valign="top" class="name"><a href="{{root}}?order=desc">Name</a></td>
+                                {% else %}
+                                    <td valign="top" class="name"><a href="{{root}}?order=asc">Name</a></td>
+                                {% endif %}
+
+
+                                {% if order == "asc" %}
+                                    <td valign="top" class="threads"><a href="{{root}}/threads?order=desc">#Threads</a></td>
+                                {% else %}
+                                    <td valign="top" class="threads"><a href="{{root}}/threads?order=asc">#Threads</a></td>
+                                {% endif %}
+                                
+                            
+                                {% if order == "asc" %}
+                                    <td valign="top" class="people"><a href="{{root}}/tellers?order=desc">#People</a></td>
+                                {% else %}
+                                    <td valign="top" class="people"><a href="{{root}}/tellers?order=asc">#People</a></td>
+                                {% endif %}
+
+
                         <td class="desc"><a href="#">Description</a></td>
                     </tr>
                 </table>
