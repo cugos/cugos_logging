@@ -4,7 +4,7 @@ font-size: 100%;
 }
 
 table.columns{
-    color: #3366FF;
+    color: #4A4AAE;
     font-size: 95%;
 }
 table.columns >
@@ -18,7 +18,6 @@ td.people{
     padding-left: 50px;
 }
 td.desc{
-    color: #3366FF;
     padding-left: 75px;
 }
 
