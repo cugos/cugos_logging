@@ -12,19 +12,18 @@ from cugos_logging.base_classes.classes import *
 
 def index_page(request, xarg=None):
     if request.method == 'POST':
-        logging.info("POST request against sort_threads()")
+        logging.info("POST request against index_page()")
         #return HttpResponseRedirect(settings.ROOT_RELATIVE_URL+'find/?search='+search)
     else:
         order = request.GET.get('order','desc')
     
     # get a distinct list of dates and channels
-    distinct = Message.objects.values_list('channel', 'date').distinct().order_by('-date')
-    indexAll = []    
-    for chan, date in distinct: 
-        logname = chan +"-"+ str(date) +".log" 
-        indexAll.append(  BaseIndex(chan, str(date), logname, Message.objects.values_list('teller').filter(channel=chan).filter(date=str(date)).distinct().count(), Message.objects.filter(channel=chan).filter(date=str(date)).count())  ) 
-           
+    indexAll = BaseIndex.getLogView()   
+
+    # sort it by default as ascending order
     indexSorted = BaseIndex.sortBy(indexAll, "logname")                      
+    
+    # depending on arguments, sort opposite
     if order != 'asc': indexSorted.reverse()
 
     return render_to_response('index_content.html',
@@ -42,16 +41,14 @@ def sort_threads(request, xarg=None):
         #return HttpResponseRedirect(settings.ROOT_RELATIVE_URL+'find/?search='+search)
     else:
         order = request.GET.get('order','asc')
-        logging.info("GET request against take_dump")
 
     # get a distinct list of dates and channels
-    distinct = Message.objects.values_list('channel', 'date').distinct().order_by('-date')
-    indexAll = []    
-    for chan, date in distinct: 
-        logname = chan +"-"+ str(date) +".log" 
-        indexAll.append(  BaseIndex(chan, str(date), logname, Message.objects.values_list('teller').filter(channel=chan).filter(date=str(date)).distinct().count(), Message.objects.filter(channel=chan).filter(date=str(date)).count())  ) 
-
+    indexAll = BaseIndex.getLogView()   
+    
+    # sort ascending by default
     indexSorted = BaseIndex.sortBy(indexAll, "numThreads")                      
+    
+    # sort in reverse if args ask
     if order != 'asc': indexSorted.reverse()
 
     return render_to_response('index_content.html',
@@ -65,19 +62,18 @@ def sort_threads(request, xarg=None):
 
 def sort_tellers(request, xarg=None):
     if request.method == 'POST':
-        logging.info("POST request against sort_threads()")
+        logging.info("POST request against sort_tellers()")
         #return HttpResponseRedirect(settings.ROOT_RELATIVE_URL+'find/?search='+search)
     else:
         order = request.GET.get('order','asc')
-
-    # get a distinct list of dates and channels
-    distinct = Message.objects.values_list('channel', 'date').distinct().order_by('-date')
-    indexall = []    
-    for chan, date in distinct: 
-        logname = chan +"-"+ str(date) +".log" 
-        indexall.append(  BaseIndex(chan, str(date), logname, Message.objects.values_list('teller').filter(channel=chan).filter(date=str(date)).distinct().count(), Message.objects.filter(channel=chan).filter(date=str(date)).count())  ) 
                            
-    indexsorted = BaseIndex.sortBy(indexall, "numTellers")                      
+    # get a distinct list of dates and channels
+    indexAll = BaseIndex.getLogView()   
+
+    # sort asc by default
+    indexsorted = BaseIndex.sortBy(indexAll, "numTellers")                      
+    
+    # sort in reverse if args say so
     if order != 'asc': indexsorted.reverse()
 
     return render_to_response('index_content.html',
