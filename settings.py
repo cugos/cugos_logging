@@ -120,3 +120,7 @@ if 1:
 
 #### END CUSTOM CONFIGS ####
 
+try:
+    from local_settings import *
+except ImportError, exp:
+    pass
