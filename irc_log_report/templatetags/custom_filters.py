@@ -1,6 +1,8 @@
 # custom_filters.py
 # Some custom filters for dictionary lookup.
 from django.template.defaultfilters import register
+from django.utils.html import conditional_escape
+from django.utils.safestring import mark_safe
 import re, string
 import logging
 
@@ -28,11 +30,20 @@ def hashdelete(dict, index):
     return ''
 
 
+regex = re.compile(r'^\*\*(?P<message>.*)\*\*')
 @register.filter(name='meregex')
-def meregex(value):
-    regex = re.compile(r'^\*\*(?P<message>.*)\*\*')
+def meregex(value, autoescape=None):
+    if autoescape:
+        esc = conditional_escape   
+    else:
+        esc = lambda x:x
+
     m = regex.match(value)
-    if m != None: 
-        return "True"
-    return "False"
+    if m: 
+        result = "<b><i>%s</i></b>"%esc(value)
+    else:
+        result = esc(value)
+    return mark_safe(result)
+meregex.needs_autoescape = True
+     
 
