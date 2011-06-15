@@ -33,7 +33,6 @@ def meregex(value):
     regex = re.compile(r'^\*\*(?P<message>.*)\*\*')
     m = regex.match(value)
     if m != None: 
-        logging.info("REGEX ME FILTER MATCH: %s"%m.group('message'))
         return "True"
     return "False"
 
