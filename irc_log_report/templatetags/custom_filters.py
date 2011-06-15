@@ -1,6 +1,8 @@
 # custom_filters.py
 # Some custom filters for dictionary lookup.
 from django.template.defaultfilters import register
+import re, string
+import logging
 
 @register.filter(name='hashlookup')
 def hashlookup(dict, index):
@@ -24,4 +26,14 @@ def hashdelete(dict, index):
     if index in dict:
         del dict[index]
     return ''
+
+
+@register.filter(name='meregex')
+def meregex(value):
+    regex = re.compile(r'^\*\*(?P<message>.*)\*\*')
+    m = regex.match(value)
+    if m != None: 
+        logging.info("REGEX ME FILTER MATCH: %s"%m.group('message'))
+        return "True"
+    return "False"
 

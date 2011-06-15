@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.conf import settings
-import string,os,sys,glob,time,logging
+import string,os,sys,glob,time,logging,re
 # imports relative to irc_log_reports proper
 from cugos_logging.irc_log_report.models import *
 from cugos_logging.base_classes.classes import *
@@ -99,8 +99,14 @@ def take_dump(request, chan=None, YEAR=None, MONTH=None, DAY=None):
     recordsList = []
     key = None
     for mes in messages:
-        # strip out some bad characters
-        irc_message = str(mes.message).replace('\x01','')
+
+        # strip out bad characters and setup for italicized rendering 
+        regex = re.compile(r'^\x01\*(?P<message>.*)\x01$')
+        if regex.match(string.strip(str(mes.message))) != None:
+            irc_message = "**"+str(mes.teller)+"**" + " " + (regex.match(string.strip(str(mes.message))).group('message'))
+        else:
+            irc_message = str(mes.message)
+
         recordsList.append ({ 'time': str(mes.time),
                              'chan' : str(mes.channel),
                              'teller' : str(mes.teller),

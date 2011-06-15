@@ -1,5 +1,6 @@
 {% extends "log_view_table.html" %}
 
+{% load custom_filters %}
 {% block log_view_records %}
 {% for mes in messages %}
 <tr>
@@ -10,7 +11,11 @@
     {% else %}
             <td valign='top' class='time'>[{{mes.time}}]</td>
             <td valign='top' class='nick'>{{mes.teller}}:</td>
-            <td class='post'>{{mes.message}}</td>
+            {% if mes.message|meregex == "False" %}
+                <td class='post'>{{mes.message}}</td>
+            {% else %}
+                <td class='post'><b><i>{{mes.message}}</i></b></td>
+            {% endif %}
     {% endif %}
 </tr>
 {% endfor %}
